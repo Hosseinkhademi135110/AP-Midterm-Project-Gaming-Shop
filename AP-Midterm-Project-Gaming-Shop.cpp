@@ -361,4 +361,224 @@ class Store {
     
     };
     
+class CustomerInterface {
+
+    private:
+    
+        Store& store;
+        Wallet customerWallet;
+        ShoppingCart cart;
+    
+    
+    public:
+    
+        CustomerInterface(Store& s) : store(s), customerWallet(1000) {}
+    
+        void run() 
+        {
+    
+            int choice;
+    
+            while (true) 
+            {
+    
+                cout << "\n--- menoe moshtari ---" << endl;
+                cout << "1. moshahede kalaha " << endl;
+                cout << "2. jostojoe kala " << endl;
+                cout << "3. sharg kif pol" << endl;
+                cout << "4. moshahede mojodi kif pol" << endl;
+                cout << "5. afzodan be sabad kharid" << endl;
+                cout << "6. moshahede sabad kharid " << endl;
+                cout << "0. bazgasht be menoe asli" << endl;
+                cout << " entekhab konid: ";
+                cin >> choice;
+    
+    
+                switch (choice) 
+                {
+    
+                    case 1:
+                        store.displayProducts();
+                        break;
+    
+                    case 2:
+                        store.searchProduct();
+                        break;
+    
+                    case 3: 
+                    {
+                        double amount;
+                        cout << " meghdare sharg: ";
+                        cin >> amount;
+                        customerWallet.charge(amount);
+                        break;
+                    }
+    
+                    case 4:
+                        customerWallet.display();
+                        break;
+    
+                    case 5: 
+                    {
+                        string name;
+                        cout << " name kalae mored nazar: ";
+                        cin >> name;
+                        store.buyProduct(name, customerWallet, cart);
+                        break;
+                    }
+    
+                    case 6:
+                        cart.display();
+    
+                        break;
+    
+                    case 0:
+                        return;
+    
+                    default:
+                        cout << " gozine na motabar" << endl;
+    
+                }
+            }
+        }
+    };
+    
+    
+    class AdminInterface {
+    
+    private:
+    
+        Store& store;
+    
+    
+    public:
+    
+        AdminInterface(Store& s) : store(s) {}
+    
+    
+        void run() 
+        {
+    
+            string password;
+            cout << " ramze obor: ";
+            cin >> password;
+    
+    
+            if (!store.authenticateAdmin(password)) 
+            {
+    
+                cout << " ramz eshtebah ast" << endl;
+                return;
+    
+            }
+    
+    
+            int choice;
+    
+            while (true) 
+            {
+    
+                cout << "\n--- menoe modiriat ---" << endl;
+                cout << "1. afzodan kala" << endl;
+                cout << "2. hazfe kala" << endl;
+                cout << "3. jostojoe kala" << endl;
+                cout << "4. namayesh kalaha" << endl;
+                cout << "5. mohasebe arzesh kole mojodi" << endl;
+                cout << "6. sharg kife pol modoriat" << endl;
+                cout << "7. moshahede mojodi kife pol modiriat" << endl;
+                cout << "0. bazgasht be menoe asli" << endl;
+                cout << " entekhab konid: ";
+    
+                cin >> choice;
+    
+    
+                switch (choice) 
+                {
+    
+                    case 1:
+                        store.addProduct();
+                        break;
+    
+                    case 2:
+                        store.removeProduct();
+                        break;
+    
+                    case 3:
+                        store.searchProduct();
+                        break;
+    
+                    case 4:
+
+                    store.displayProducts();
+                    break;
+
+                case 5:
+                    store.calculateTotalValue();
+                    break;
+
+                case 6:
+                    store.chargeAdminWallet();
+                    break;
+
+                case 7:
+                    store.displayAdminWallet();
+                    break;
+
+                case 0:
+                    return;
+
+                default:
+                    cout << " gozine na motabar!" << endl;
+
+            }
+        }
+    }
+};
+
+
+int main() {
+
+
+    Store store;
+    
+
+    while (true) 
+    {
+        cout << "\n--- foroshgah bazi ---" << endl;
+        cout << "1. vorod be bakhsh modiriat" << endl;
+        cout << "2. vorod be bakhsh moshtarian" << endl;
+        cout << "0. khorog" << endl;
+        cout << " entekhab konid: ";
+        
+
+        int choice;
+        cin >> choice;
+
+
+        switch (choice) 
+        {
+
+            case 1: 
+            {
+                AdminInterface admin(store);
+                admin.run();
+                break;
+            }
+
+            case 2: 
+            {
+                CustomerInterface customer(store);
+                customer.run();
+                break;
+            }
+
+            case 0:
+                return 0;
+
+            default:
+                cout << " gozine na motabar!" << endl;
+
+        }
+    }
+}
     
